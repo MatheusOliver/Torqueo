@@ -1,0 +1,229 @@
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+
+export const Login = () => {
+  const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      console.log('Tentando login com Google');
+      await signInWithGoogle();
+      toast({
+        title: 'Redirecionando...',
+        description: 'Você será redirecionado para fazer login com o Google.',
+      });
+    } catch (error: any) {
+      console.error('Erro no login:', error);
+      toast({
+        title: 'Erro ao fazer login',
+        description: error.message || 'Tente novamente mais tarde.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !password) {
+      toast({
+        title: 'Campos obrigatórios',
+        description: 'Preencha email e senha.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: 'Senha muito curta',
+        description: 'A senha deve ter no mínimo 6 caracteres.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      if (isSignUp) {
+        console.log('Criando nova conta');
+        await signUpWithEmail(email, password);
+        toast({
+          title: 'Conta criada!',
+          description: 'Verifique seu email para confirmar a conta.',
+        });
+        setIsSignUp(false);
+        setEmail('');
+        setPassword('');
+      } else {
+        console.log('Fazendo login');
+        await signInWithEmail(email, password);
+        toast({
+          title: 'Login realizado!',
+          description: 'Bem-vindo ao Torqueo.',
+        });
+      }
+    } catch (error: any) {
+      console.error('Erro:', error);
+      toast({
+        title: isSignUp ? 'Erro ao criar conta' : 'Erro ao fazer login',
+        description: error.message || 'Verifique suas credenciais.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
+      <Card className="w-full max-w-md border-border shadow-2xl">
+        <CardHeader className="space-y-4 pb-8">
+          <div className="flex justify-center">
+            <img 
+              src="https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg" 
+              alt="Torqueo Logo" 
+              className="h-20 w-auto"
+            />
+          </div>
+          <div className="text-center space-y-2">
+            <CardTitle className="text-3xl font-bold text-foreground">
+              {isSignUp ? 'Criar Conta' : 'Bem-vindo ao Torqueo'}
+            </CardTitle>
+            <CardDescription className="text-base text-muted-foreground">
+              Sistema profissional de orçamentos para oficinas mecânicas
+            </CardDescription>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-6 pb-8">
+          {/* Formulário Email/Senha */}
+          <form onSubmit={handleEmailSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                className="h-11"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium">Senha</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+                className="h-11"
+              />
+              {isSignUp && (
+                <p className="text-xs text-muted-foreground">Mínimo de 6 caracteres</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-12 bg-primary hover:bg-primary/90 text-white text-base font-medium"
+            >
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                isSignUp ? 'Criar Conta' : 'Entrar'
+              )}
+            </Button>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">Ou continue com</span>
+            </div>
+          </div>
+
+          {/* Botão Google */}
+          <Button
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            variant="outline"
+            className="w-full h-12 border-2 border-gray-200 hover:bg-gray-50 text-gray-900 text-base font-medium"
+          >
+            {loading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                  <path
+                    fill="#4285F4"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  />
+                </svg>
+                Google
+              </>
+            )}
+          </Button>
+
+          {/* Toggle entre Login/Cadastro */}
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setEmail('');
+                setPassword('');
+              }}
+              disabled={loading}
+              className="text-sm text-primary hover:underline"
+            >
+              {isSignUp ? 'Já tem uma conta? Entrar' : 'Não tem conta? Criar agora'}
+            </button>
+          </div>
+
+          <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+            <p className="text-xs text-muted-foreground text-center leading-relaxed">
+              Ao fazer login, você concorda com nossos Termos de Serviço e Política de Privacidade.
+            </p>
+            <p className="text-xs text-muted-foreground text-center font-medium">
+              🔒 Seus dados estão protegidos e criptografados
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
