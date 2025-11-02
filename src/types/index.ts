@@ -6,6 +6,7 @@ export interface Cliente {
   endereco: string;
   marca: string;
   veiculo: string;
+  placa: string;
   km: string;
 }
 

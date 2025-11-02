@@ -81,6 +81,12 @@ export const Historico = () => {
                     <span className="text-muted-foreground">Veículo:</span>
                     <span className="font-medium">{orcamento.cliente.marca} {orcamento.cliente.veiculo}</span>
                   </div>
+                  {orcamento.cliente.placa && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Placa:</span>
+                      <span className="font-medium">{orcamento.cliente.placa}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Itens:</span>
                     <span className="font-medium">{orcamento.itens.length}</span>

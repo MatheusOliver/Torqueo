@@ -17,14 +17,13 @@ export const generatePDF = (orcamento: Orcamento, config: Configuracoes): Blob =
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.width;
   
-  // Cabeçalho com logo da oficina
-  if (config.logoUrl) {
-    try {
-      // Adicionar logo no topo
-      doc.addImage(config.logoUrl, 'PNG', 15, 10, 40, 25);
-    } catch (error) {
-      console.log('Erro ao carregar logo, usando texto:', error);
-    }
+  // Cabeçalho com logo da oficina (logo local)
+  try {
+    // Usar logo local do projeto
+    const logoPath = '/logo.svg';
+    doc.addImage(logoPath, 'SVG', 15, 10, 40, 25);
+  } catch (error) {
+    console.log('Erro ao carregar logo:', error);
   }
   
   // Cabeçalho com gradiente - cores Torqueo
@@ -97,6 +96,7 @@ export const generatePDF = (orcamento: Orcamento, config: Configuracoes): Blob =
     orcamento.cliente.email ? `E-mail: ${orcamento.cliente.email}` : null,
     `Endereço: ${orcamento.cliente.endereco || 'Não informado'}`,
     `Veículo: ${orcamento.cliente.marca} ${orcamento.cliente.veiculo}`,
+    `Placa: ${orcamento.cliente.placa || 'Não informado'}`,
     `KM Atual: ${orcamento.cliente.km || 'Não informado'}`
   ].filter(Boolean);
   

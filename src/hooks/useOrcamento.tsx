@@ -85,6 +85,7 @@ export const OrcamentoProvider = ({ children }: { children: React.ReactNode }) =
         endereco: '',
         marca: '',
         veiculo: '',
+        placa: '',
         km: ''
       },
       itens: [],

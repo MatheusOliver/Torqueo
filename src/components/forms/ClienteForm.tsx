@@ -20,8 +20,10 @@ export const ClienteForm = () => {
     endereco: '',
     marca: '',
     veiculo: '',
+    placa: '',
     km: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (orcamentoAtual?.cliente) {
@@ -39,12 +41,15 @@ export const ClienteForm = () => {
     
     atualizarCliente(formData);
     salvarRascunho();
+    setIsEditing(false);
     
     toast({
       title: 'Dados salvos!',
       description: 'Os dados do cliente foram salvos com sucesso.',
     });
   };
+
+  const isClienteSalvo = orcamentoAtual?.cliente?.nome && orcamentoAtual?.cliente?.cpfCnpj;
 
   return (
     <Card className="bg-card border-border">
@@ -64,7 +69,8 @@ export const ClienteForm = () => {
                 onChange={(e) => handleChange('nome', e.target.value)}
                 placeholder="Ex: João Silva"
                 required
-                className="bg-input border-border text-foreground text-base h-10 sm:h-11"
+                disabled={isClienteSalvo && !isEditing}
+                className="bg-input border-border text-foreground text-base h-10 sm:h-11 disabled:opacity-70 disabled:cursor-not-allowed"
               />
             </div>
             
@@ -76,7 +82,8 @@ export const ClienteForm = () => {
                 onChange={(e) => handleChange('cpfCnpj', e.target.value)}
                 placeholder="000.000.000-00"
                 required
-                className="bg-input border-border text-foreground"
+                disabled={isClienteSalvo && !isEditing}
+                className="bg-input border-border text-foreground disabled:opacity-70 disabled:cursor-not-allowed"
               />
             </div>
             
@@ -140,6 +147,19 @@ export const ClienteForm = () => {
             </div>
             
             <div>
+              <Label htmlFor="placa">Placa do Veículo *</Label>
+              <Input
+                id="placa"
+                value={formData.placa}
+                onChange={(e) => handleChange('placa', e.target.value.toUpperCase())}
+                placeholder="ABC-1234"
+                required
+                maxLength={8}
+                className="bg-input border-border text-foreground uppercase"
+              />
+            </div>
+            
+            <div>
               <Label htmlFor="km">KM Atual</Label>
               <Input
                 id="km"
@@ -151,10 +171,22 @@ export const ClienteForm = () => {
             </div>
           </div>
           
-          <Button type="submit" className="w-full md:w-auto bg-primary hover:bg-primary/90 text-white">
-            <Save className="w-4 h-4 mr-2" />
-            Salvar Dados do Cliente
-          </Button>
+          <div className="flex gap-2">
+            <Button type="submit" className="flex-1 md:flex-none bg-primary hover:bg-primary/90 text-white">
+              <Save className="w-4 h-4 mr-2" />
+              {isClienteSalvo ? 'Atualizar Dados' : 'Salvar Dados do Cliente'}
+            </Button>
+            {isClienteSalvo && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsEditing(!isEditing)}
+                className="flex-1 md:flex-none"
+              >
+                {isEditing ? 'Cancelar Edição' : 'Editar Cliente'}
+              </Button>
+            )}
+          </div>
         </form>
       </CardContent>
     </Card>
