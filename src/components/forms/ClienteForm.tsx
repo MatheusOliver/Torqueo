@@ -27,7 +27,23 @@ export const ClienteForm = () => {
 
   useEffect(() => {
     if (orcamentoAtual?.cliente) {
-      setFormData(orcamentoAtual.cliente);
+      // Garantir que todos os campos sempre sejam strings (nunca undefined)
+      const defaultCliente: Cliente = {
+        nome: '',
+        cpfCnpj: '',
+        telefone: '',
+        email: '',
+        endereco: '',
+        marca: '',
+        veiculo: '',
+        placa: '',
+        km: ''
+      };
+      
+      setFormData({
+        ...defaultCliente,
+        ...orcamentoAtual.cliente
+      });
     }
   }, [orcamentoAtual]);
 
