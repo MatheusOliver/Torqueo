@@ -10,7 +10,10 @@ export const Historico = () => {
   const { orcamentos, configuracoes } = useOrcamento();
   const { toast } = useToast();
 
-  const historico = orcamentos.filter(o => o.status === 'finalizado' || o.status === 'cancelado');
+  // Ordenar por ID (timestamp) - mais recentes primeiro
+  const historico = orcamentos
+    .filter(o => o.status === 'finalizado' || o.status === 'cancelado')
+    .sort((a, b) => Number(b.id) - Number(a.id));
 
     const handleBaixarPDF = (orcamento: any) => {
     console.log('Baixando PDF:', orcamento.id);

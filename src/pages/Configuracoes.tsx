@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useOrcamento } from '@/hooks/useOrcamento';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Save, Settings, Moon, Sun } from 'lucide-react';
+import { Save, Settings, Moon, Sun, Upload, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Configuracoes as ConfigType } from '@/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -12,12 +12,43 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export const Configuracoes = () => {
   const { configuracoes, atualizarConfiguracoes } = useOrcamento();
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState<ConfigType>(configuracoes);
+  const [logoPreview, setLogoPreview] = useState<string>('');
 
   useEffect(() => {
     setFormData(configuracoes);
+    setLogoPreview(configuracoes.logoUrl);
   }, [configuracoes]);
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Verificar se é PNG
+      if (!file.type.includes('png')) {
+        toast({
+          title: 'Formato inválido',
+          description: 'Por favor, selecione uma imagem PNG.',
+          variant: 'destructive'
+        });
+        return;
+      }
+
+      // Converter para base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData(prev => ({ ...prev, logoUrl: base64String }));
+        setLogoPreview(base64String);
+        toast({
+          title: 'Logo carregada!',
+          description: 'A logo foi carregada com sucesso.',
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -176,18 +207,39 @@ export const Configuracoes = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="logoUrl" className="text-base font-semibold">Logo da Oficina (URL)</Label>
+              <Label className="text-base font-semibold">Logo da Oficina (PNG)</Label>
               <p className="text-sm text-muted-foreground mb-2">
-                Insira a URL da logo que aparecerá nos PDFs gerados
+                Carregue a logo que aparecerá nos PDFs gerados (formato PNG)
               </p>
-              <Input
-                id="logoUrl"
-                type="url"
-                value={formData.logoUrl}
-                onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
-                placeholder="https://exemplo.com/logo.png"
-                className="bg-input border-border text-foreground"
-              />
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png"
+                  onChange={handleLogoUpload}
+                  className="hidden"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-primary text-primary hover:bg-primary/10"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Selecionar Logo PNG
+                </Button>
+                {logoPreview && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-16 h-16 border border-border rounded-lg overflow-hidden bg-white flex items-center justify-center">
+                      <img src={logoPreview} alt="Logo" className="max-w-full max-h-full object-contain" />
+                    </div>
+                    <span className="text-sm text-green-500 flex items-center gap-1">
+                      <ImageIcon className="w-4 h-4" />
+                      Logo carregada
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

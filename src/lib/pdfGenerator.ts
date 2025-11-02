@@ -17,13 +17,21 @@ export const generatePDF = (orcamento: Orcamento, config: Configuracoes): Blob =
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.width;
   
-  // Cabeçalho com logo da oficina (logo local)
-  try {
-    // Usar logo local do projeto
-    const logoPath = '/logo.svg';
-    doc.addImage(logoPath, 'SVG', 15, 10, 40, 25);
-  } catch (error) {
-    console.log('Erro ao carregar logo:', error);
+  // Cabeçalho com logo da oficina (se configurada)
+  if (config.logoUrl) {
+    try {
+      // Detectar tipo de imagem
+      let format = 'PNG';
+      if (config.logoUrl.includes('data:image/jpeg') || config.logoUrl.includes('data:image/jpg')) {
+        format = 'JPEG';
+      } else if (config.logoUrl.includes('data:image/svg')) {
+        format = 'SVG';
+      }
+      
+      doc.addImage(config.logoUrl, format, 15, 10, 40, 25);
+    } catch (error) {
+      console.log('Erro ao carregar logo:', error);
+    }
   }
   
   // Cabeçalho com gradiente - cores Torqueo
