@@ -132,44 +132,6 @@ export const Login = () => {
     }
   };
 
-  const handlePasswordReset = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!resetEmail) {
-      toast({
-        title: 'Campo obrigatório',
-        description: 'Digite seu email para recuperar a senha.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    try {
-      setResetLoading(true);
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: 'Email enviado!',
-        description: 'Verifique sua caixa de entrada para redefinir sua senha.',
-      });
-      setShowResetDialog(false);
-      setResetEmail('');
-    } catch (error: any) {
-      console.error('Erro ao enviar email:', error);
-      toast({
-        title: 'Erro ao enviar email',
-        description: error.message || 'Tente novamente mais tarde.',
-        variant: 'destructive',
-      });
-    } finally {
-      setResetLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <Card className="w-full max-w-md border-border shadow-2xl">
