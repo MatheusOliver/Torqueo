@@ -10,7 +10,10 @@ export const Enviados = () => {
   const { orcamentos, configuracoes, moverParaEmAndamento, moverParaCancelado } = useOrcamento();
   const { toast } = useToast();
 
-  const enviados = orcamentos.filter(o => o.status === 'enviado');
+  // Ordenar por ID (timestamp) - mais recentes primeiro
+  const enviados = orcamentos
+    .filter(o => o.status === 'enviado')
+    .sort((a, b) => Number(b.id) - Number(a.id));
 
   const handleBaixarPDF = (orcamento: any) => {
     console.log('Baixando PDF:', orcamento.id);

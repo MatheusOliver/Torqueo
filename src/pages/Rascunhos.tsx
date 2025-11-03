@@ -10,7 +10,10 @@ export const Rascunhos = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const rascunhos = orcamentos.filter(o => o.status === 'rascunho');
+  // Ordenar por ID (timestamp) - mais recentes primeiro
+  const rascunhos = orcamentos
+    .filter(o => o.status === 'rascunho')
+    .sort((a, b) => Number(b.id) - Number(a.id));
 
   const handleEditar = (id: string) => {
     console.log('Editando rascunho:', id);

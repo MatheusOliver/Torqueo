@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { useTheme } from '@/hooks/useTheme';
 
 const menuItems = [
   { icon: FileText, label: 'Novo Orçamento', path: '/' },
@@ -23,6 +24,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const location = useLocation();
   const { signOut, user } = useAuth();
   const { toast } = useToast();
+  const { theme } = useTheme();
 
   const handleLogout = async () => {
     try {
@@ -60,11 +62,10 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img 
-              src="https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg" 
+              src={theme === 'dark' ? '/logo-claro.svg' : 'https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg'}
               alt="Torqueo Logo" 
-              className="h-8 w-auto"
+              className="h-10 w-auto object-contain"
             />
-
           </div>
           
           {/* Close button - mobile only */}

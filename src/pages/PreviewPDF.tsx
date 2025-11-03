@@ -152,7 +152,7 @@ export const PreviewPDF = () => {
 
             {/* Informações Finais */}
             <div className="mt-6 text-xs text-gray-600">
-              <p>Validade do orçamento: {configuracoes.validadeOrcamento} dias</p>
+              <p>Validade da proposta: {configuracoes.validadeOrcamento} dias</p>
               <p>Garantia de Serviços: {configuracoes.garantiaServicos}</p>
               <p>Garantia de Peças: {configuracoes.garantiaPecas}</p>
             </div>

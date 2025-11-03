@@ -1,0 +1,45 @@
+<svg viewBox="0 0 1587 291" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Torqueo Clara -->
+  <g>
+    <!-- T -->
+    <rect x="0" y="35" width="160" height="40" fill="#5BA2A9"/>
+    <rect x="60" y="75" width="40" height="181" fill="#5BA2A9"/>
+    
+    <!-- Círculo/Pneu O -->
+    <circle cx="300" cy="145" r="105" fill="none" stroke="#5BA2A9" stroke-width="20"/>
+    <circle cx="300" cy="145" r="75" fill="none" stroke="#8B5A3C" stroke-width="15"/>
+    <circle cx="300" cy="145" r="35" fill="#2D3E50"/>
+    
+    <!-- R -->
+    <path d="M 460 35 L 520 35 Q 580 35 580 95 Q 580 125 560 140 L 600 216 L 540 216 L 505 145 L 500 145 L 500 216 L 460 216 Z M 500 75 L 500 105 L 520 105 Q 540 105 540 90 Q 540 75 520 75 Z" fill="#5BA2A9"/>
+    
+    <!-- Q -->
+    <circle cx="720" cy="125" r="90" fill="none" stroke="#5BA2A9" stroke-width="40"/>
+    <line x1="760" y1="165" x2="810" y2="216" stroke="#5BA2A9" stroke-width="40" stroke-linecap="round"/>
+    
+    <!-- U -->
+    <path d="M 920 35 L 960 35 L 960 145 Q 960 216 1025 216 Q 1090 216 1090 145 L 1090 35 L 1130 35 L 1130 145 Q 1130 256 1025 256 Q 920 256 920 145 Z" fill="#5BA2A9"/>
+    
+    <!-- E (3 linhas horizontais) -->
+    <rect x="1230" y="35" width="160" height="40" fill="#5BA2A9"/>
+    <rect x="1230" y="108" width="130" height="40" fill="#5BA2A9"/>
+    <rect x="1230" y="181" width="160" height="40" fill="#5BA2A9"/>
+    
+    <!-- Engrenagem O -->
+    <g transform="translate(1450, 145)">
+      <!-- Dentes da engrenagem -->
+      <path d="M 0,-80 L 15,-100 L -15,-100 Z" fill="#5BA2A9"/>
+      <path d="M 56,-56 L 70,-76 L 42,-90 Z" fill="#5BA2A9"/>
+      <path d="M 80,0 L 100,-15 L 100,15 Z" fill="#5BA2A9"/>
+      <path d="M 56,56 L 70,76 L 42,90 Z" fill="#5BA2A9"/>
+      <path d="M 0,80 L 15,100 L -15,100 Z" fill="#5BA2A9"/>
+      <path d="M -56,56 L -70,76 L -42,90 Z" fill="#5BA2A9"/>
+      <path d="M -80,0 L -100,-15 L -100,15 Z" fill="#5BA2A9"/>
+      <path d="M -56,-56 L -70,-76 L -42,-90 Z" fill="#5BA2A9"/>
+      
+      <!-- Corpo da engrenagem -->
+      <circle r="60" fill="none" stroke="#5BA2A9" stroke-width="15"/>
+      <circle r="25" fill="#2D3E50"/>
+    </g>
+  </g>
+</svg>

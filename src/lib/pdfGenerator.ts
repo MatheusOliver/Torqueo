@@ -193,7 +193,7 @@ export const generatePDF = (orcamento: Orcamento, config: Configuracoes): Blob =
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text(`Validade do orçamento: ${config.validadeOrcamento} dias`, 15, yPos);
+  doc.text(`Validade da proposta: ${config.validadeOrcamento} dias`, 15, yPos);
   doc.text(`Garantia de Serviços: ${config.garantiaServicos}`, 15, yPos + 4);
   doc.text(`Garantia de Peças: ${config.garantiaPecas}`, 15, yPos + 8);
   

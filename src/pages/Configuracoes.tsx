@@ -244,7 +244,7 @@ export const Configuracoes = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="validadeOrcamento" className="text-base font-semibold">Validade (dias) *</Label>
+                <Label htmlFor="validadeOrcamento" className="text-base font-semibold">Validade da Proposta (dias) *</Label>
                 <Input
                   id="validadeOrcamento"
                   type="number"
