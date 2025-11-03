@@ -1,7 +1,7 @@
 import { useOrcamento } from '@/hooks/useOrcamento';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, FileText } from 'lucide-react';
+import { Edit, Trash2, FileText, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 
