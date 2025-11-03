@@ -36,7 +36,10 @@ export const Rascunhos = () => {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">Rascunhos</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2 flex items-center gap-3">
+          <Clock className="w-10 h-10 text-yellow-500" />
+          Rascunhos
+        </h1>
         <p className="text-base sm:text-lg text-muted-foreground">
           Orçamentos salvos que ainda não foram finalizados
         </p>

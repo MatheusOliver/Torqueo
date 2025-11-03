@@ -65,21 +65,11 @@ function AppContent() {
         {/* Mobile Header */}
         <MobileMenu onToggle={() => setSidebarOpen(true)} />
         
-        {/* Desktop Menu Toggle Button */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="hidden lg:flex fixed top-4 left-4 z-30 p-2 rounded-lg bg-sidebar hover:bg-sidebar-accent transition-colors"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        
-        {/* Sidebar */}
+        {/* Sidebar - sempre visível no desktop */}
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         
-        {/* Main Content */}
-        <main className="pt-16 lg:pt-0 min-h-screen transition-all duration-300">
+        {/* Main Content - com margin-left no desktop para compensar o menu fixo */}
+        <main className="pt-16 lg:pt-0 lg:ml-64 min-h-screen transition-all duration-300">
           <div className="container mx-auto px-4 py-8 max-w-7xl">
             <Routes>
               <Route path="/" element={<NovoOrcamento />} />

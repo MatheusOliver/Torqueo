@@ -7,7 +7,7 @@ import { ItensLista } from '@/components/ItensLista';
 import { GerarOrcamento } from '@/components/GerarOrcamento';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, User } from 'lucide-react';
+import { Search, User, FileText } from 'lucide-react';
 import { Cliente } from '@/types';
 
 export const NovoOrcamento = () => {
@@ -45,7 +45,10 @@ export const NovoOrcamento = () => {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">Novo Orçamento</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2 flex items-center gap-3">
+          <FileText className="w-10 h-10 text-primary" />
+          Novo Orçamento
+        </h1>
         <p className="text-base sm:text-lg text-muted-foreground">
           Preencha os dados abaixo para criar um novo orçamento profissional
         </p>

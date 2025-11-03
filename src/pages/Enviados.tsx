@@ -1,7 +1,7 @@
 import { useOrcamento } from '@/hooks/useOrcamento';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, MessageCircle, CheckCircle, XCircle } from 'lucide-react';
+import { Download, MessageCircle, CheckCircle, XCircle, Send } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { downloadPDF } from '@/lib/pdfGenerator';
 import { sendWhatsApp } from '@/lib/whatsappService';
@@ -61,7 +61,10 @@ export const Enviados = () => {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">Enviados</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-2 flex items-center gap-3">
+          <Send className="w-10 h-10 text-green-500" />
+          Enviados
+        </h1>
         <p className="text-base sm:text-lg text-muted-foreground">
           Orçamentos finalizados e enviados aos clientes
         </p>
