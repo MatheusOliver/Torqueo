@@ -68,8 +68,7 @@ export const PreviewPDF = () => {
                   </div>
                 )}
                 <div className="flex-1 text-center">
-                  <h1 className="text-3xl font-bold text-white mb-2">TORQUEO</h1>
-                  <p className="text-sm">Sistema de Orçamentos para Oficinas</p>
+                  <h1 className="text-3xl font-bold text-white">{configuracoes.dadosEmpresa.nome}</h1>
                 </div>
               </div>
             </div>

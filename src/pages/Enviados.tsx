@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useOrcamento } from '@/hooks/useOrcamento';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -5,15 +6,20 @@ import { Download, MessageCircle, CheckCircle, XCircle, Send } from 'lucide-reac
 import { useToast } from '@/components/ui/use-toast';
 import { downloadPDF } from '@/lib/pdfGenerator';
 import { sendWhatsApp } from '@/lib/whatsappService';
+import { Orcamento } from '@/types';
 
 export const Enviados = () => {
   const { orcamentos, configuracoes, moverParaEmAndamento, moverParaCancelado } = useOrcamento();
   const { toast } = useToast();
+  const [enviados, setEnviados] = useState<Orcamento[]>([]);
 
-  // Ordenar por ID (timestamp) - mais recentes primeiro
-  const enviados = orcamentos
-    .filter(o => o.status === 'enviado')
-    .sort((a, b) => Number(b.id) - Number(a.id));
+  // Atualizar lista sempre que orcamentos mudar
+  useEffect(() => {
+    const lista = orcamentos
+      .filter(o => o.status === 'enviado')
+      .sort((a, b) => Number(b.id) - Number(a.id));
+    setEnviados(lista);
+  }, [orcamentos]);
 
   const handleBaixarPDF = (orcamento: any) => {
     console.log('Baixando PDF:', orcamento.id);
@@ -33,15 +39,13 @@ export const Enviados = () => {
     });
   };
 
-    const handleAprovar = (id: string) => {
+  const handleAprovar = (id: string) => {
     console.log('Aprovando orçamento:', id);
     moverParaEmAndamento(id);
     toast({
       title: 'Orçamento aprovado!',
       description: 'O orçamento foi movido para Em Andamento.',
     });
-    // Forçar re-render
-    setTimeout(() => window.location.reload(), 500);
   };
 
   const handleCancelar = (id: string) => {
@@ -53,8 +57,6 @@ export const Enviados = () => {
         description: 'O orçamento foi movido para o histórico.',
         variant: 'destructive'
       });
-      // Forçar re-render
-      setTimeout(() => window.location.reload(), 500);
     }
   };
 
@@ -101,10 +103,12 @@ export const Enviados = () => {
                 </div>
 
                 <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Veículo:</span>
-                    <span className="font-medium">{orcamento.cliente.marca} {orcamento.cliente.veiculo}</span>
-                  </div>
+                  {orcamento.cliente.veiculo && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Veículo:</span>
+                      <span className="font-medium">{orcamento.cliente.marca || ''} {orcamento.cliente.veiculo}</span>
+                    </div>
+                  )}
                   {orcamento.cliente.placa && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Placa:</span>
@@ -112,12 +116,16 @@ export const Enviados = () => {
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Itens:</span>
-                    <span className="font-medium">{orcamento.itens.length}</span>
+                    <span className="text-muted-foreground">Produtos:</span>
+                    <span className="font-medium">{orcamento.itens.filter(i => i.tipo === 'produto').length}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Serviços:</span>
+                    <span className="font-medium">{orcamento.itens.filter(i => i.tipo === 'servico').length}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total:</span>
-                    <span className="font-bold text-green-500">R$ {orcamento.total.toFixed(2)}</span>
+                    <span className="font-bold text-green-500">R$ {orcamento.total?.toFixed(2) || '0.00'}</span>
                   </div>
                 </div>
 

@@ -228,10 +228,14 @@ export const OrcamentoProvider = ({ children }: { children: React.ReactNode }) =
     localStorage.setItem('torqueo_config', JSON.stringify(config));
     
     // Aplicar tema
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
     if (config.tema === 'dark') {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.add('light');
+      localStorage.setItem('theme', 'light');
     }
   };
 

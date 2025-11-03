@@ -24,11 +24,19 @@ function AppContent() {
   useEffect(() => {
     const savedConfig = localStorage.getItem('torqueo_config');
     if (savedConfig) {
-      const config = JSON.parse(savedConfig);
-      if (config.tema === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      try {
+        const config = JSON.parse(savedConfig);
+        const root = document.documentElement;
+        root.classList.remove('light', 'dark');
+        if (config.tema === 'dark') {
+          root.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          root.classList.add('light');
+          localStorage.setItem('theme', 'light');
+        }
+      } catch (error) {
+        console.error('Erro ao aplicar tema:', error);
       }
     }
   }, []);

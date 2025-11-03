@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useOrcamento } from '@/hooks/useOrcamento';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,15 +7,20 @@ import { Download, MessageCircle, CheckCircle, Clock, Eye, Package, Wrench } fro
 import { useToast } from '@/components/ui/use-toast';
 import { downloadPDF } from '@/lib/pdfGenerator';
 import { sendWhatsApp } from '@/lib/whatsappService';
+import { Orcamento } from '@/types';
 
 export const EmAndamento = () => {
   const { orcamentos, configuracoes, finalizarOrcamento } = useOrcamento();
   const { toast } = useToast();
+  const [emAndamento, setEmAndamento] = useState<Orcamento[]>([]);
 
-  // Ordenar por ID (timestamp) - mais recentes primeiro
-  const emAndamento = orcamentos
-    .filter(o => o.status === 'em_andamento')
-    .sort((a, b) => Number(b.id) - Number(a.id));
+  // Atualizar lista sempre que orcamentos mudar
+  useEffect(() => {
+    const lista = orcamentos
+      .filter(o => o.status === 'em_andamento')
+      .sort((a, b) => Number(b.id) - Number(a.id));
+    setEmAndamento(lista);
+  }, [orcamentos]);
 
   const handleBaixarPDF = (orcamento: any) => {
     console.log('Baixando PDF:', orcamento.id);
@@ -34,15 +40,13 @@ export const EmAndamento = () => {
     });
   };
 
-    const handleFinalizar = (id: string) => {
+  const handleFinalizar = (id: string) => {
     console.log('Finalizando orçamento:', id);
     finalizarOrcamento(id);
     toast({
       title: 'Orçamento finalizado!',
       description: 'O orçamento foi movido para o histórico.',
     });
-    // Forçar re-render
-    setTimeout(() => window.location.reload(), 500);
   };
 
   return (

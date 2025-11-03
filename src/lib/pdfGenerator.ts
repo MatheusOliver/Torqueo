@@ -38,15 +38,11 @@ export const generatePDF = (orcamento: Orcamento, config: Configuracoes): Blob =
   doc.setFillColor(47, 108, 178); // #2f6cb2
   doc.rect(0, 0, pageWidth, 45, 'F');
   
-  // Título principal
+  // Título principal - Nome da Oficina
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
-  doc.text('TORQUEO', pageWidth / 2, 20, { align: 'center' });
-  
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Sistema de Orçamentos para Oficinas', pageWidth / 2, 30, { align: 'center' });
+  doc.text(config.dadosEmpresa.nome, pageWidth / 2, 25, { align: 'center' });
   
   // Linha decorativa
   doc.setDrawColor(255, 255, 255);

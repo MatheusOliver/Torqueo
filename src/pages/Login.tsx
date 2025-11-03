@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/lib/supabase';
 
 export const Login = () => {
   const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
@@ -14,6 +16,9 @@ export const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     try {
@@ -32,6 +37,44 @@ export const Login = () => {
         variant: 'destructive',
       });
       setLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!resetEmail) {
+      toast({
+        title: 'Campo obrigatório',
+        description: 'Digite seu email para recuperar a senha.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      setResetLoading(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: 'Email enviado!',
+        description: 'Verifique sua caixa de entrada para redefinir sua senha.',
+      });
+      setShowResetDialog(false);
+      setResetEmail('');
+    } catch (error: any) {
+      console.error('Erro ao enviar email:', error);
+      toast({
+        title: 'Erro ao enviar email',
+        description: error.message || 'Tente novamente mais tarde.',
+        variant: 'destructive',
+      });
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -86,6 +129,44 @@ export const Login = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!resetEmail) {
+      toast({
+        title: 'Campo obrigatório',
+        description: 'Digite seu email para recuperar a senha.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      setResetLoading(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: 'Email enviado!',
+        description: 'Verifique sua caixa de entrada para redefinir sua senha.',
+      });
+      setShowResetDialog(false);
+      setResetEmail('');
+    } catch (error: any) {
+      console.error('Erro ao enviar email:', error);
+      toast({
+        title: 'Erro ao enviar email',
+        description: error.message || 'Tente novamente mais tarde.',
+        variant: 'destructive',
+      });
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -198,8 +279,8 @@ export const Login = () => {
             )}
           </Button>
 
-          {/* Toggle entre Login/Cadastro */}
-          <div className="text-center">
+          {/* Toggle entre Login/Cadastro e Esqueci Senha */}
+          <div className="flex flex-col items-center gap-2">
             <button
               type="button"
               onClick={() => {
@@ -212,6 +293,52 @@ export const Login = () => {
             >
               {isSignUp ? 'Já tem uma conta? Entrar' : 'Não tem conta? Criar agora'}
             </button>
+            
+            {!isSignUp && (
+              <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+                <DialogTrigger asChild>
+                  <button
+                    type="button"
+                    disabled={loading}
+                    className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
+                  >
+                    Esqueci minha senha
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Recuperar Senha</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handlePasswordReset} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="reset-email">Email cadastrado</Label>
+                      <Input
+                        id="reset-email"
+                        type="email"
+                        placeholder="seu@email.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        disabled={resetLoading}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Enviaremos um link para redefinir sua senha
+                      </p>
+                    </div>
+                    <Button
+                      type="submit"
+                      disabled={resetLoading}
+                      className="w-full"
+                    >
+                      {resetLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        'Enviar Email de Recuperação'
+                      )}
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
 
           <div className="bg-muted/50 rounded-lg p-4 space-y-2">
