@@ -116,21 +116,28 @@ export const GerarOrcamento = () => {
     }
 
     console.log('Enviando via WhatsApp');
-    sendWhatsApp(orcamentoAtual, orcamentoAtual.cliente.telefone);
     
-    enviarOrcamento(orcamentoAtual.id);
+    // IMPORTANTE: Salvar o orçamento ANTES de enviar
+    salvarRascunho();
     
-    toast({
-      title: 'WhatsApp aberto!',
-      description: 'O orçamento foi enviado para o cliente.',
-      duration: 5000,
-    });
-    
+    // Aguardar um momento para garantir que salvou
     setTimeout(() => {
-      criarNovoOrcamento();
-      setMaoDeObra('0');
-      navigate('/enviados');
-    }, 1500);
+      sendWhatsApp(orcamentoAtual, orcamentoAtual.cliente.telefone);
+      enviarOrcamento(orcamentoAtual.id);
+      
+      toast({
+        title: 'WhatsApp aberto!',
+        description: 'O orçamento foi enviado para o cliente.',
+        duration: 5000,
+      });
+      
+      // Navegar após um pequeno delay
+      setTimeout(() => {
+        criarNovoOrcamento();
+        setMaoDeObra('0');
+        navigate('/enviados');
+      }, 500);
+    }, 300);
   };
 
   const handlePreview = () => {

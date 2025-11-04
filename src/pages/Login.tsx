@@ -104,14 +104,24 @@ export const Login = () => {
       
       if (isSignUp) {
         console.log('Criando nova conta');
-        await signUpWithEmail(email, password);
-        toast({
-          title: 'Conta criada!',
-          description: 'Verifique seu email para confirmar a conta.',
-        });
-        setIsSignUp(false);
-        setEmail('');
-        setPassword('');
+        const result = await signUpWithEmail(email, password);
+        
+        // Verificar se precisa confirmar email
+        if (result?.user?.identities && result.user.identities.length === 0) {
+          toast({
+            title: 'Email já cadastrado!',
+            description: 'Este email já está em uso. Tente fazer login.',
+            variant: 'destructive',
+          });
+          setIsSignUp(false);
+        } else {
+          toast({
+            title: 'Conta criada com sucesso!',
+            description: 'Você já pode fazer login.',
+          });
+          setIsSignUp(false);
+          setPassword('');
+        }
       } else {
         console.log('Fazendo login');
         await signInWithEmail(email, password);
@@ -122,9 +132,17 @@ export const Login = () => {
       }
     } catch (error: any) {
       console.error('Erro:', error);
+      let errorMessage = error.message || 'Verifique suas credenciais.';
+      
+      if (error.message?.includes('Invalid login credentials')) {
+        errorMessage = 'Email ou senha incorretos.';
+      } else if (error.message?.includes('Email not confirmed')) {
+        errorMessage = 'Confirme seu email antes de fazer login.';
+      }
+      
       toast({
         title: isSignUp ? 'Erro ao criar conta' : 'Erro ao fazer login',
-        description: error.message || 'Verifique suas credenciais.',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {
@@ -138,7 +156,7 @@ export const Login = () => {
         <CardHeader className="space-y-4 pb-8">
           <div className="flex justify-center">
             <img 
-              src="https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg" 
+              src="/logo-escuro.svg" 
               alt="Torqueo Logo" 
               className="h-20 w-auto"
             />

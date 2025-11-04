@@ -43,10 +43,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signInWithGoogle = async () => {
     console.log('Iniciando login com Google');
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: `${window.location.origin}/`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     });
     
@@ -54,6 +58,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error('Erro ao fazer login com Google:', error);
       throw error;
     }
+    
+    console.log('Redirecionando para Google OAuth:', data);
   };
 
   const signInWithEmail = async (email: string, password: string) => {
@@ -71,15 +77,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUpWithEmail = async (email: string, password: string) => {
     console.log('Criando conta com email:', email);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: window.location.origin,
+      }
     });
     
     if (error) {
       console.error('Erro ao criar conta:', error);
       throw error;
     }
+    
+    console.log('Conta criada com sucesso:', data);
+    return data;
   };
 
   const signOut = async () => {

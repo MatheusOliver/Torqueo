@@ -1,45 +1,35 @@
-<svg viewBox="0 0 1587 291" xmlns="http://www.w3.org/2000/svg">
-  <!-- Logo Torqueo Clara -->
-  <g>
-    <!-- T -->
-    <rect x="0" y="35" width="160" height="40" fill="#5BA2A9"/>
-    <rect x="60" y="75" width="40" height="181" fill="#5BA2A9"/>
-    
-    <!-- Círculo/Pneu O -->
-    <circle cx="300" cy="145" r="105" fill="none" stroke="#5BA2A9" stroke-width="20"/>
-    <circle cx="300" cy="145" r="75" fill="none" stroke="#8B5A3C" stroke-width="15"/>
-    <circle cx="300" cy="145" r="35" fill="#2D3E50"/>
-    
-    <!-- R -->
-    <path d="M 460 35 L 520 35 Q 580 35 580 95 Q 580 125 560 140 L 600 216 L 540 216 L 505 145 L 500 145 L 500 216 L 460 216 Z M 500 75 L 500 105 L 520 105 Q 540 105 540 90 Q 540 75 520 75 Z" fill="#5BA2A9"/>
-    
-    <!-- Q -->
-    <circle cx="720" cy="125" r="90" fill="none" stroke="#5BA2A9" stroke-width="40"/>
-    <line x1="760" y1="165" x2="810" y2="216" stroke="#5BA2A9" stroke-width="40" stroke-linecap="round"/>
-    
-    <!-- U -->
-    <path d="M 920 35 L 960 35 L 960 145 Q 960 216 1025 216 Q 1090 216 1090 145 L 1090 35 L 1130 35 L 1130 145 Q 1130 256 1025 256 Q 920 256 920 145 Z" fill="#5BA2A9"/>
-    
-    <!-- E (3 linhas horizontais) -->
-    <rect x="1230" y="35" width="160" height="40" fill="#5BA2A9"/>
-    <rect x="1230" y="108" width="130" height="40" fill="#5BA2A9"/>
-    <rect x="1230" y="181" width="160" height="40" fill="#5BA2A9"/>
-    
-    <!-- Engrenagem O -->
-    <g transform="translate(1450, 145)">
-      <!-- Dentes da engrenagem -->
-      <path d="M 0,-80 L 15,-100 L -15,-100 Z" fill="#5BA2A9"/>
-      <path d="M 56,-56 L 70,-76 L 42,-90 Z" fill="#5BA2A9"/>
-      <path d="M 80,0 L 100,-15 L 100,15 Z" fill="#5BA2A9"/>
-      <path d="M 56,56 L 70,76 L 42,90 Z" fill="#5BA2A9"/>
-      <path d="M 0,80 L 15,100 L -15,100 Z" fill="#5BA2A9"/>
-      <path d="M -56,56 L -70,76 L -42,90 Z" fill="#5BA2A9"/>
-      <path d="M -80,0 L -100,-15 L -100,15 Z" fill="#5BA2A9"/>
-      <path d="M -56,-56 L -70,-76 L -42,-90 Z" fill="#5BA2A9"/>
-      
-      <!-- Corpo da engrenagem -->
-      <circle r="60" fill="none" stroke="#5BA2A9" stroke-width="15"/>
-      <circle r="25" fill="#2D3E50"/>
-    </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 256">
+  <!-- Background elements -->
+  <rect x="0" y="35" width="159" height="35" rx="17.5" fill="#52969C"/>
+  <rect x="0" y="109" width="80" height="35" rx="17.5" fill="#52969C"/>
+  <rect x="460" y="35" width="159" height="35" rx="17.5" fill="#52969C"/>
+  <rect x="1135" y="35" width="159" height="35" rx="17.5" fill="#52969C"/>
+  <rect x="1001" y="221" width="159" height="35" rx="17.5" fill="#52969C"/>
+  
+  <!-- Circle with rings -->
+  <circle cx="296" cy="128" r="97" fill="#52969C"/>
+  <circle cx="296" cy="128" r="75" fill="#B35436"/>
+  <circle cx="296" cy="128" r="53" fill="#2D4B54"/>
+  
+  <!-- Letter T -->
+  <path d="M 160 35 L 250 35 L 250 80 L 220 80 L 220 221 L 190 221 L 190 80 L 160 80 Z" fill="#52969C"/>
+  
+  <!-- Letter O (already drawn as circle) -->
+  
+  <!-- Letter R -->
+  <path d="M 460 35 L 505 35 Q 560 35 575 65 Q 590 95 560 120 L 595 221 L 550 221 L 520 135 L 490 135 L 490 221 L 460 221 Z M 490 65 L 490 110 L 520 110 Q 550 110 555 87.5 Q 560 65 520 65 Z" fill="#52969C"/>
+  
+  <!-- Letter Q -->
+  <path d="M 695 35 Q 780 35 820 90 Q 860 145 820 200 Q 780 255 695 255 Q 610 255 570 200 L 610 170 L 650 210 Q 695 225 720 180 Q 745 135 720 90 Q 695 65 665 80 L 625 50 Q 610 35 695 35 Z M 720 200 L 780 256 L 810 230 L 750 174 Z" fill="#52969C"/>
+  
+  <!-- Letter U -->
+  <path d="M 915 35 L 945 35 L 945 180 Q 945 221 985 221 Q 1025 221 1025 180 L 1025 35 L 1055 35 L 1055 180 Q 1055 256 985 256 Q 915 256 915 180 Z" fill="#52969C"/>
+  
+  <!-- Letter E -->
+  <path d="M 1135 35 L 1270 35 L 1270 65 L 1165 65 L 1165 115 L 1250 115 L 1250 145 L 1165 145 L 1165 191 L 1270 191 L 1270 221 L 1135 221 Z" fill="#52969C"/>
+  
+  <!-- Letter O (second) - same as first circle -->
+  
+  <!-- Gear icon -->
+  <path d="M 1450 60 L 1480 60 L 1485 85 Q 1500 90 1515 100 L 1535 85 L 1555 105 L 1540 125 Q 1550 140 1555 155 L 1580 160 L 1580 190 L 1555 195 Q 1550 210 1540 225 L 1555 245 L 1535 265 L 1515 250 Q 1500 260 1485 265 L 1480 290 L 1450 290 L 1445 265 Q 1430 260 1415 250 L 1395 265 L 1375 245 L 1390 225 Q 1380 210 1375 195 L 1350 190 L 1350 160 L 1375 155 Q 1380 140 1390 125 L 1375 105 L 1395 85 L 1415 100 Q 1430 90 1445 85 Z M 1465 140 Q 1445 140 1432.5 152.5 Q 1420 165 1420 185 Q 1420 205 1432.5 217.5 Q 1445 230 1465 230 Q 1485 230 1497.5 217.5 Q 1510 205 1510 185 Q 1510 165 1497.5 152.5 Q 1485 140 1465 140 Z" fill="#52969C"/>
 </svg>

@@ -62,7 +62,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img 
-              src={theme === 'dark' ? '/logo-claro.svg' : 'https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg'}
+              src={theme === 'dark' ? '/logo-claro.svg' : '/logo-escuro.svg'}
               alt="Torqueo Logo" 
               className="h-10 w-auto object-contain"
             />
