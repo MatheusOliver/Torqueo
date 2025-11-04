@@ -46,11 +46,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: window.location.origin,
         queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
+          access_type: 'online',
+          prompt: 'select_account',
         },
+        skipBrowserRedirect: false,
       },
     });
     
@@ -82,6 +83,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       password,
       options: {
         emailRedirectTo: window.location.origin,
+        data: {
+          email_confirm: true, // Configurar confirmação automática se possível
+        }
       }
     });
     
@@ -90,7 +94,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw error;
     }
     
-    console.log('Conta criada com sucesso:', data);
+    console.log('Conta criada:', data);
+    
+    // Se o usuário foi criado e confirmado automaticamente, fazer login
+    if (data.user && data.session) {
+      console.log('Usuário criado e logado automaticamente');
+      setSession(data.session);
+      setUser(data.user);
+      setLoading(false);
+    } else {
+      console.log('Aguardando confirmação de email');
+    }
+    
     return data;
   };
 

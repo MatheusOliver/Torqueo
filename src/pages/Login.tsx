@@ -106,7 +106,7 @@ export const Login = () => {
         console.log('Criando nova conta');
         const result = await signUpWithEmail(email, password);
         
-        // Verificar se precisa confirmar email
+        // Verificar se precisa confirmar email ou se já foi logado
         if (result?.user?.identities && result.user.identities.length === 0) {
           toast({
             title: 'Email já cadastrado!',
@@ -114,10 +114,18 @@ export const Login = () => {
             variant: 'destructive',
           });
           setIsSignUp(false);
-        } else {
+        } else if (result?.session) {
+          // Login automático após criar conta
           toast({
-            title: 'Conta criada com sucesso!',
-            description: 'Você já pode fazer login.',
+            title: 'Conta criada e login realizado!',
+            description: 'Bem-vindo ao Torqueo!',
+          });
+          // Usuário já foi logado automaticamente pelo signUpWithEmail
+        } else {
+          // Precisa confirmar email
+          toast({
+            title: 'Confirme seu email',
+            description: 'Enviamos um link de confirmação para seu email. Após confirmar, você poderá fazer login.',
           });
           setIsSignUp(false);
           setPassword('');
@@ -156,9 +164,9 @@ export const Login = () => {
         <CardHeader className="space-y-4 pb-8">
           <div className="flex justify-center">
             <img 
-              src="/logo-escuro.svg" 
+              src="/logo-escuro.png" 
               alt="Torqueo Logo" 
-              className="h-20 w-auto"
+              className="h-20 w-auto object-contain"
             />
           </div>
           <div className="text-center space-y-2">
