@@ -2,8 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Orcamento, OrcamentoContextType, Cliente, ItemOrcamento, Configuracoes } from '@/types';
 import { storageService } from '@/lib/storage';
 
-const OrcamentoContext = createContext<OrcamentoContextType | undefined>(undefined);
-
 const defaultConfiguracoes: Configuracoes = {
   logoUrl: 'https://cdn-ai.onspace.ai/onspace/project/image/PHFKscnXvNiErZvXWg4gGJ/Grupo_2.svg',
   whatsappNumero: '',
@@ -24,6 +22,30 @@ const defaultConfiguracoes: Configuracoes = {
   },
   tema: 'dark'
 };
+
+// Criar context com valor padrão para evitar undefined durante inicialização
+const defaultContextValue: OrcamentoContextType = {
+  orcamentos: [],
+  orcamentoAtual: null,
+  configuracoes: defaultConfiguracoes,
+  clientes: [],
+  criarNovoOrcamento: () => {},
+  atualizarCliente: () => {},
+  adicionarItem: () => {},
+  removerItem: () => {},
+  atualizarMaoDeObra: () => {},
+  salvarRascunho: () => {},
+  enviarOrcamento: () => {},
+  carregarOrcamento: () => {},
+  excluirOrcamento: () => {},
+  moverParaEmAndamento: () => {},
+  moverParaCancelado: () => {},
+  finalizarOrcamento: () => {},
+  atualizarConfiguracoes: () => {},
+  buscarCliente: () => []
+};
+
+const OrcamentoContext = createContext<OrcamentoContextType>(defaultContextValue);
 
 export const OrcamentoProvider = ({ children }: { children: React.ReactNode }) => {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
@@ -273,8 +295,5 @@ export const OrcamentoProvider = ({ children }: { children: React.ReactNode }) =
 
 export const useOrcamento = () => {
   const context = useContext(OrcamentoContext);
-  if (!context) {
-    throw new Error('useOrcamento deve ser usado dentro de OrcamentoProvider');
-  }
   return context;
 };
