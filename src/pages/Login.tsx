@@ -117,15 +117,17 @@ export const Login = () => {
         } else if (result?.session) {
           // Login automático após criar conta
           toast({
-            title: 'Conta criada e login realizado!',
-            description: 'Bem-vindo ao Torqueo!',
+            title: '✅ Conta criada com sucesso!',
+            description: 'Bem-vindo ao Torqueo! Seu acesso está liberado.',
+            duration: 5000,
           });
           // Usuário já foi logado automaticamente pelo signUpWithEmail
         } else {
           // Precisa confirmar email
           toast({
-            title: 'Confirme seu email',
-            description: 'Enviamos um link de confirmação para seu email. Após confirmar, você poderá fazer login.',
+            title: '📧 Confirme seu email para continuar',
+            description: 'Enviamos um link de confirmação para ' + email + '. Verifique sua caixa de entrada e spam. Após confirmar, você poderá fazer login.',
+            duration: 8000,
           });
           setIsSignUp(false);
           setPassword('');

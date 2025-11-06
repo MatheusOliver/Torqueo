@@ -117,27 +117,33 @@ export const GerarOrcamento = () => {
 
     console.log('Enviando via WhatsApp');
     
-    // IMPORTANTE: Salvar o orçamento ANTES de enviar
-    salvarRascunho();
+    // IMPORTANTE: Atualizar mão de obra antes de salvar
+    const maoDeObraAtual = Number(maoDeObra) || 0;
+    atualizarMaoDeObra(maoDeObraAtual);
     
-    // Aguardar um momento para garantir que salvou
+    // Aguardar um momento para o estado atualizar e salvar
     setTimeout(() => {
-      sendWhatsApp(orcamentoAtual, orcamentoAtual.cliente.telefone);
-      enviarOrcamento(orcamentoAtual.id);
+      salvarRascunho();
       
-      toast({
-        title: 'WhatsApp aberto!',
-        description: 'O orçamento foi enviado para o cliente.',
-        duration: 5000,
-      });
-      
-      // Navegar após um pequeno delay
+      // Aguardar salvar antes de enviar
       setTimeout(() => {
-        criarNovoOrcamento();
-        setMaoDeObra('0');
-        navigate('/enviados');
-      }, 500);
-    }, 300);
+        sendWhatsApp(orcamentoAtual, orcamentoAtual.cliente.telefone);
+        enviarOrcamento(orcamentoAtual.id);
+        
+        toast({
+          title: 'WhatsApp aberto!',
+          description: 'O orçamento foi enviado para o cliente.',
+          duration: 5000,
+        });
+        
+        // Navegar após um pequeno delay
+        setTimeout(() => {
+          criarNovoOrcamento();
+          setMaoDeObra('0');
+          navigate('/enviados');
+        }, 500);
+      }, 200);
+    }, 100);
   };
 
   const handlePreview = () => {
